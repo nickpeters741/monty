@@ -12,6 +12,7 @@ char **tokenize(char *s)
 		arr[i++] = token;
 		token = strtok(NULL, " ");
 	}
+	/*arr[i++] = NULL;*/
 
 	return (arr);
 }

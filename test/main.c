@@ -5,9 +5,12 @@ int main(int argc, char *argv[])
 	FILE *fp;
 	char * line = NULL;
 	size_t len = 0;
-	char  **arr;
-	int i;
+	char **arr;
+	stack_t *stack; 
+	unsigned int line_number;
+	void (*f)(stack_t **stack, unsigned int line_number);
 
+	stack = NULL;
 	if (argc != 2)
 	{
 		printf("USAGE: monty file\n");
@@ -24,18 +27,27 @@ int main(int argc, char *argv[])
 	}
 
 	/* Read the file one line at a time */
+	line_number = 1;
 	while (getline(&line, &len, fp) != -1)
 	{
 		/* array containing the opcode and data */
 		arr = tokenize(line);
 	
-		/* Print the array */
-		for (i = 0; arr[i] != NULL; i++)
-			printf("arr[%d]: %s\n", i, arr[i]);
+		/* Get opcode corresponding function */
+		f = get_op_func(arr[0]);
 
+		if (f == NULL)
+		{
+			printf("L%d: unknown instruction %s", line_number, arr[0]);
+			exit(EXIT_FAILURE);
+		}
+
+		/* Execute Function */
+		f(&stack, line_number);
+
+		line_number++;
 	}
 
-	free(arr);
 	fclose(fp);
 	return (0);
 }
