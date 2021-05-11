@@ -4,14 +4,15 @@ void (*get_op_func(char *s))(stack_t **head, unsigned int line_number)
 {
 	instruction_t opcodes[] = {
 				{"push", push},
-				{"pall", pall}
+				{"pall", pall},
+				{"pint", pint},
+				{"pop", pop}
 	};
 
 	int i = 0;
 	
-	while (i < 2)
+	while (i < 4)
 	{
-		printf("Checking iteration [%d] for '%s' against %s\n",i, opcodes[i].opcode, s);
 		if (strcmp(opcodes[i].opcode, s) == 0)
 		{
 			return (opcodes[i].f);
