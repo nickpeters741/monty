@@ -5,6 +5,8 @@ int main(int argc, char *argv[])
 	FILE *fp;
 	char * line = NULL;
 	size_t len = 0;
+	char  **arr;
+	int i;
 
 	if (argc != 2)
 	{
@@ -24,9 +26,16 @@ int main(int argc, char *argv[])
 	/* Read the file one line at a time */
 	while (getline(&line, &len, fp) != -1)
 	{
-		printf("%s", line);
+		/* array containing the opcode and data */
+		arr = tokenize(line);
+	
+		/* Print the array */
+		for (i = 0; arr[i] != NULL; i++)
+			printf("arr[%d]: %s\n", i, arr[i]);
+
 	}
 
-
+	free(arr);
+	fclose(fp);
 	return (0);
 }
